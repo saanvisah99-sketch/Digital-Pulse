@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Technology &amp; Digital Growth Trends</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+/* CSS VARIABLES */
+[data-theme="dark"] {
+  --bg:        #050a12;
+  --bg2:       #080f1c;
+  --bgcard:    #0a1628;
+  --bghov:     #0f1e36;
+  --bgalt:     #060d1a;
+  --acc:       #00f5c4;
+  --acc2:      #00aaff;
+  --acc3:      #7c3aed;
+  --accsoft:   rgba(0,245,196,0.08);
+  --txt:       #e8f4fd;
+  --txt2:      #8ba7c7;
+  --txtm:      #4a6282;
+  --border:    rgba(0,245,196,0.12);
+  --borderb:   rgba(0,245,196,0.35);
+  --borderc:   rgba(10,170,255,0.15);
+  --grid:      rgba(0,245,196,0.05);
+  --gridb:     rgba(0,245,196,0.15);
+  --shadow:    0 8px 40px rgba(0,0,0,0.6);
+  --glow:      0 0 30px rgba(0,245,196,0.18);
+  --navbg:     rgba(5,10,18,0.95);
+}
+[data-theme="light"] {
+  --bg:        #eaf1fb;
+  --bg2:       #dce8f6;
+  --bgcard:    #f2f7ff;
+  --bghov:     #ffffff;
+  --bgalt:     #d8e5f5;
+  --acc:       #007a63;
+  --acc2:      #0055cc;
+  --acc3:      #6d28d9;
+  --accsoft:   rgba(0,122,99,0.07);
+  --txt:       #0a1628;
+  --txt2:      #2d4a6e;
+  --txtm:      #6a88aa;
+  --border:    rgba(0,122,99,0.15);
+  --borderb:   rgba(0,122,99,0.4);
+  --borderc:   rgba(0,85,170,0.18);
+  --grid:      rgba(0,122,99,0.06);
+  --gridb:     rgba(0,122,99,0.18);
+  --shadow:    0 8px 40px rgba(0,0,0,0.1);
+  --glow:      0 0 30px rgba(0,122,99,0.15);
+  --navbg:     rgba(234,241,251,0.95);
+}
+
+/* RESET */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Exo 2',sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;overflow-x:hidden;transition:background .4s,color .4s}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--borderb);border-radius:3px}
+::selection{background:var(--acc);color:var(--bg)}
+a{color:var(--acc);text-decoration:none}
+h1,h2,h3{font-family:'Rajdhani',sans-serif;font-weight:700;line-height:1.1}
+.mono{font-family:'Share Tech Mono',monospace}
+.acc{color:var(--acc)}
+strong{color:var(--acc)}
+
+/* NAVBAR */
+.nav{position:fixed;top:0;left:0;right:0;z-index:999;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;background:var(--navbg);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:background .4s,border-color .4s}
+.nav.scrolled{box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.nav-brand{font-family:'Share Tech Mono',monospace;font-size:1.05rem;color:var(--txt);display:flex;align-items:center;gap:.5rem}
+.nav-logo{color:var(--acc);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{filter:drop-shadow(0 0 4px var(--acc))}50%{filter:drop-shadow(0 0 12px var(--acc))}}
+.nav-links{display:flex;list-style:none;gap:.15rem}
+.nav-links a{padding:.3rem .7rem;font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.1em;color:var(--txt2);border-radius:3px;transition:color .2s,background .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--acc);background:var(--accsoft)}
+.nav-right{display:flex;align-items:center;gap:.8rem}
+.toggle{display:flex;align-items:center;gap:.4rem;padding:.3rem .85rem;background:var(--accsoft);border:1px solid var(--borderb);border-radius:20px;cursor:pointer;color:var(--acc);font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.08em;transition:all .2s}
+.toggle:hover{background:var(--acc);color:var(--bg)}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--txt);border-radius:2px}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:var(--bg2)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:60px 60px;animation:gdrift 20s linear infinite;pointer-events:none}
+@keyframes gdrift{to{background-position:60px 60px}}
+.particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.particle{position:absolute;border-radius:50%;background:var(--acc);opacity:0;animation:floatp var(--dur,8s) ease-in-out var(--delay,0s) infinite}
+@keyframes floatp{0%{opacity:0;transform:translateY(0) scale(0)}10%{opacity:.6;transform:translateY(-20px) scale(1)}90%{opacity:.2;transform:translateY(-300px) scale(.5)}100%{opacity:0;transform:translateY(-320px) scale(0)}}
+.hero-content{position:relative;z-index:2;text-align:center;max-width:860px;padding:6rem 2rem 4rem;animation:fadeup .9s ease both}
+@keyframes fadeup{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem 1rem;border:1px solid var(--borderb);border-radius:20px;font-family:'Share Tech Mono',monospace;font-size:.66rem;color:var(--acc);letter-spacing:.12em;margin-bottom:2rem;background:var(--accsoft)}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--acc);animation:blink 1.5s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.hero-title{font-size:clamp(3rem,9vw,7rem);line-height:.95;margin-bottom:1.5rem}
+.hero-line{display:block}
+.line-1{color:var(--txt2);font-size:.5em;letter-spacing:.3em}
+.line-3{color:var(--acc);text-shadow:0 0 40px rgba(0,245,196,.3)}
+.typewriter{display:inline-block;color:var(--acc);text-shadow:0 0 40px rgba(0,245,196,.3);white-space:nowrap}
+.tw-cursor{display:inline-block;width:4px;height:.85em;background:var(--acc);margin-left:3px;vertical-align:middle;border-radius:1px;animation:twblink .7s step-end infinite}
+@keyframes twblink{0%,100%{opacity:1}50%{opacity:0}}
+.hero-sub{font-size:1.05rem;color:var(--txt2);max-width:55ch;margin:0 auto 2.5rem;line-height:1.7}
+.hero-stats{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.stat-pill{display:flex;flex-direction:column;align-items:center;padding:.75rem 1.2rem;background:var(--bgcard);border:1px solid var(--borderc);border-radius:8px;min-width:120px;transition:border-color .2s}
+.stat-pill:hover{border-color:var(--acc)}
+.stat-val{font-family:'Share Tech Mono',monospace;font-size:1.35rem;color:var(--acc);line-height:1}
+.stat-lbl{font-size:.65rem;color:var(--txtm);letter-spacing:.06em;margin-top:.3rem;text-transform:uppercase}
+.cta{display:inline-flex;align-items:center;gap:.6rem;padding:.85rem 2.2rem;background:var(--acc);color:var(--bg);border-radius:6px;font-family:'Share Tech Mono',monospace;font-size:.82rem;letter-spacing:.1em;font-weight:700;transition:transform .2s,box-shadow .2s}
+.cta:hover{transform:translateY(-3px);box-shadow:var(--glow);color:var(--bg)}
+.cta-arrow{animation:bounce .8s ease infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(6px)}}
+.scroll-ind{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--txtm);font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.2em;z-index:2}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--acc),transparent);animation:spulse 1.5s ease infinite}
+@keyframes spulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* SECTION BASE  */
+.section{padding:6rem 0 4rem}
+.section.alt{background:var(--bgalt)}
+.inner{max-width:1280px;margin:0 auto;padding:0 2rem}
+.sec-head{display:flex;gap:2rem;align-items:flex-start;margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
+.sec-num{font-family:'Share Tech Mono',monospace;font-size:4rem;color:var(--border);line-height:1;flex-shrink:0;transition:color .3s}
+.sec-head:hover .sec-num{color:var(--acc)}
+.sec-title{font-size:clamp(1.8rem,4vw,3rem);margin-bottom:.6rem}
+.sec-desc{color:var(--txt2);font-size:1rem;max-width:55ch;line-height:1.7}
+
+/* REVEAL ANIMATION */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.on{opacity:1;transform:translateY(0)}
+
+/*  CHART LAYOUT */
+.chart-layout{display:grid;grid-template-columns:1fr 320px;gap:1.8rem;align-items:start}
+.chart-layout.rev{grid-template-columns:320px 1fr}
+.chart-layout.full{grid-template-columns:1fr}
+
+/*  CHART CARD  */
+.card{background:var(--bgcard);border:1px solid var(--borderc);border-radius:12px;padding:1.5rem;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s}
+.card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent);opacity:.5}
+.card:hover{border-color:var(--borderb);box-shadow:var(--glow),var(--shadow)}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
+.badge{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--txtm);letter-spacing:.1em}
+.btns{display:flex;gap:.35rem}
+.cbtn{padding:.22rem .6rem;background:transparent;border:1px solid var(--border);border-radius:4px;color:var(--txtm);font-family:'Share Tech Mono',monospace;font-size:.62rem;cursor:pointer;letter-spacing:.06em;transition:all .2s}
+.cbtn:hover{border-color:var(--acc);color:var(--acc)}
+.cbtn.active{background:var(--accsoft);border-color:var(--acc);color:var(--acc)}
+.chart-wrap{position:relative;height:340px}
+.chart-wrap.tall{height:460px}
+.card-foot{display:flex;justify-content:space-between;margin-top:.9rem;padding-top:.7rem;border-top:1px solid var(--border);font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--txtm)}
+
+/*  NARRATIVE PANEL  */
+.narr{display:flex;flex-direction:column;gap:1rem}
+.milestone{display:flex;align-items:flex-start;gap:.7rem;padding:.7rem 1rem;background:var(--bgcard);border:1px solid var(--border);border-radius:8px;transition:border-color .2s}
+.milestone:hover{border-color:var(--borderb)}
+.m-year{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--acc);flex-shrink:0;padding-top:1px}
+.m-evt{font-size:.83rem;color:var(--txt2);line-height:1.4}
+.insight-box{padding:1.1rem 1.2rem;background:var(--accsoft);border:1px solid var(--borderb);border-left:3px solid var(--acc);border-radius:8px}
+.insight-lbl{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--acc);letter-spacing:.1em;margin-bottom:.45rem}
+.insight-txt{font-size:.87rem;color:var(--txt2);line-height:1.6}
+
+/*  KPI GRID  */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.kpi{padding:.9rem;background:var(--bgcard);border:1px solid var(--borderc);border-radius:8px;text-align:center;transition:border-color .2s}
+.kpi:hover{border-color:var(--borderb)}
+.kpi-val{font-family:'Share Tech Mono',monospace;font-size:1.3rem;color:var(--acc);display:block;margin-bottom:.25rem}
+.kpi-lbl{font-size:.68rem;color:var(--txtm);letter-spacing:.05em}
+
+/*  PLATFORM GRID  */
+.platform-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-top:2rem}
+.pcard{padding:.9rem;background:var(--bgcard);border:1px solid var(--borderc);border-radius:8px;text-align:center;transition:all .25s;cursor:default}
+.pcard:hover{transform:translateY(-4px);border-color:var(--borderb);box-shadow:var(--glow)}
+.p-name{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:.2rem}
+.p-users{font-family:'Share Tech Mono',monospace;font-size:1.05rem;color:var(--acc)}
+.p-cat{font-size:.65rem;color:var(--txtm);margin-top:.2rem}
+.p-bar{margin-top:.5rem;height:3px;border-radius:2px;background:var(--border);overflow:hidden}
+.p-bar-fill{height:100%;border-radius:2px;transition:width 1s ease}
+
+/*  LANG CARDS  */
+.lang-list{display:flex;flex-direction:column;gap:.55rem;max-height:500px;overflow-y:auto;padding-right:.2rem}
+.lang-list::-webkit-scrollbar{width:3px}
+.lang-list::-webkit-scrollbar-thumb{background:var(--borderb)}
+.lcard{display:flex;align-items:center;gap:.7rem;padding:.65rem .9rem;background:var(--bgcard);border:1px solid var(--border);border-radius:8px;transition:all .2s}
+.lcard:hover{border-color:var(--borderb);background:var(--bghov)}
+.ldot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.linfo{flex:1}
+.lname{font-family:'Rajdhani',sans-serif;font-size:.92rem;font-weight:600}
+.luse{font-size:.68rem;color:var(--txtm)}
+.ltrend{font-family:'Share Tech Mono',monospace;font-size:.68rem;padding:.18rem .4rem;border-radius:3px}
+.up{color:#00f5c4;background:rgba(0,245,196,.1)}
+.down{color:#ff6b35;background:rgba(255,107,53,.1)}
+.stable{color:#8ba7c7;background:rgba(139,167,199,.1)}
+
+/*  INSIGHTS SECTION  */
+.insights-sec{padding:6rem 0 4rem;background:var(--bg2)}
+.ig-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.4rem;margin-bottom:3.5rem}
+.ic{padding:1.8rem;background:var(--bgcard);border:1px solid var(--borderc);border-radius:12px;box-shadow:var(--shadow);transition:all .3s;opacity:0;transform:translateY(20px)}
+.ic.on{opacity:1;transform:translateY(0)}
+.ic:hover{border-color:var(--borderb);transform:translateY(-5px);box-shadow:var(--glow),var(--shadow)}
+.ic.feat{grid-column:span 2;border-color:var(--acc)}
+.ic-icon{font-size:1.8rem;margin-bottom:.8rem;color:var(--acc)}
+.ic h3{font-size:1.2rem;margin-bottom:.6rem}
+.ic p{color:var(--txt2);font-size:.88rem;line-height:1.7}
+.ic-tag{display:inline-block;margin-top:.8rem;padding:.18rem .55rem;background:var(--accsoft);border:1px solid var(--borderb);border-radius:3px;font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--acc);letter-spacing:.1em}
+.closing{text-align:center;padding:3rem 2rem;border-top:1px solid var(--border)}
+.closing blockquote{font-family:'Rajdhani',sans-serif;font-size:clamp(1.3rem,3vw,1.9rem);font-style:italic;font-weight:500;max-width:60ch;margin:0 auto 1rem}
+.closing small{font-size:.75rem;color:var(--txtm)}
+
+/*  FOOTER  */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:1.5rem 2rem}
+.foot-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.foot-brand{font-family:'Share Tech Mono',monospace;font-size:.9rem;color:var(--txt);display:flex;align-items:center;gap:.4rem}
+.foot-copy{font-size:.73rem;color:var(--txtm);text-align:center}
+
+/*  RESPONSIVE  */
+@media(max-width:1024px){
+  .chart-layout,.chart-layout.rev{grid-template-columns:1fr}
+  .ic.feat{grid-column:span 1}
+}
+@media(max-width:768px){
+  .nav-links{display:none;position:fixed;top:58px;left:0;right:0;background:var(--navbg);backdrop-filter:blur(16px);flex-direction:column;padding:1.5rem;gap:.4rem;border-bottom:1px solid var(--border)}
+  .nav-links.open{display:flex}
+  .hamburger{display:flex}
+  .sec-head{flex-direction:column;gap:.5rem}
+  .sec-num{font-size:2.5rem}
+  .hero-stats{gap:.7rem}
+  .chart-wrap{height:280px}
+  .chart-wrap.tall{height:360px}
+}
+@media(max-width:480px){
+  .inner{padding:0 1rem}
+  .section{padding:5rem 0 3rem}
+  .ig-grid{grid-template-columns:1fr}
+  .platform-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="navbar">
+  <div class="nav-brand">
+    <span class="nav-logo">▲</span>
+    <span class="mono">DIGIT<span class="acc">AL</span>PULSE</span>
+  </div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero"      class="nav-link active" data-sec="hero">HOME</a></li>
+    <li><a href="#internet"  class="nav-link" data-sec="internet">INTERNET</a></li>
+    <li><a href="#social"    class="nav-link" data-sec="social">SOCIAL</a></li>
+    <li><a href="#ecommerce" class="nav-link" data-sec="ecommerce">E-COMM</a></li>
+    <li><a href="#languages" class="nav-link" data-sec="languages">CODE</a></li>
+    <li><a href="#insights"  class="nav-link" data-sec="insights">INSIGHTS</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="toggle" id="themeBtn">
+      <span id="tIcon">☾</span>
+      <span id="tLabel">LIGHT</span>
+    </button>
+    <button class="hamburger" id="burger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-grid"></div>
+  <div class="particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="badge-dot"></span>DATA STORY &nbsp;·&nbsp; 2024 EDITION</div>
+    <h1 class="hero-title">
+      <span class="hero-line line-1">THE RISE OF</span>
+      <span class="hero-line line-2">THE <span class="typewriter" id="twWord"></span><span class="tw-cursor" id="twCursor"></span></span>
+      <span class="hero-line line-3">WORLD</span>
+    </h1>
+    <p class="hero-sub">From <strong>40 million</strong> internet users in 1995 to over <strong>5.3 billion</strong> today — explore how technology reshaped commerce, communication, and code through interactive data visualisations.</p>
+    <div class="hero-stats">
+      <div class="stat-pill"><span class="stat-val" data-target="5350" data-suffix="M+">0</span><span class="stat-lbl">Internet Users</span></div>
+      <div class="stat-pill"><span class="stat-val" data-target="6.91" data-suffix="T$">0</span><span class="stat-lbl">E-Comm Sales</span></div>
+      <div class="stat-pill"><span class="stat-val" data-target="15" data-suffix="B+">0</span><span class="stat-lbl">Social Sessions</span></div>
+      <div class="stat-pill"><span class="stat-val" data-target="700" data-suffix="+">0</span><span class="stat-lbl">Languages</span></div>
+    </div>
+    <a href="#internet" class="cta">EXPLORE THE DATA <span class="cta-arrow">↓</span></a>
+  </div>
+  <div class="scroll-ind"><div class="scroll-line"></div><span>SCROLL</span></div>
+</section>
+
+<!-- SECTION 1: INTERNET -->
+<section class="section" id="internet">
+  <div class="inner">
+    <div class="sec-head reveal">
+      <div class="sec-num">01</div>
+      <div>
+        <h2 class="sec-title">Global Internet <span class="acc">Adoption</span></h2>
+        <p class="sec-desc">The internet's spread is the defining infrastructure story of our era. What started as a military network became the backbone of global civilisation — connecting 5 billion people across every continent.</p>
+      </div>
+    </div>
+    <div class="chart-layout reveal">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge">■ LINE CHART</span>
+          <div class="btns">
+            <button class="cbtn active" data-chart="internet" data-view="line">LINE</button>
+            <button class="cbtn" data-chart="internet" data-view="area">AREA FILL</button>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="internetChart"></canvas></div>
+        <div class="card-foot"><span>Source: ITU / Our World in Data</span><span>15 data points · 1995–2023</span></div>
+      </div>
+      <div class="narr">
+        <div id="milestones"></div>
+        <div class="insight-box">
+          <div class="insight-lbl">► KEY INSIGHT</div>
+          <p class="insight-txt">Internet users grew from 40 million in 1995 to over 5.3 billion in 2023 — a <strong>133× increase</strong> in under 30 years.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: SOCIAL -->
+<section class="section alt" id="social">
+  <div class="inner">
+    <div class="sec-head reveal">
+      <div class="sec-num">02</div>
+      <div>
+        <h2 class="sec-title">Social Media <span class="acc">Empires</span></h2>
+        <p class="sec-desc">Social platforms aren't just apps — they're digital nations. Facebook alone has more "citizens" than any country on Earth. Explore the user counts that define our connected culture.</p>
+      </div>
+    </div>
+    <div class="chart-layout full reveal">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge">■ BAR CHART</span>
+          <div class="btns">
+            <button class="cbtn active" data-chart="social" data-view="vertical">VERTICAL</button>
+            <button class="cbtn" data-chart="social" data-view="horizontal">HORIZONTAL</button>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="socialChart"></canvas></div>
+        <div class="card-foot"><span>Source: Platform Reports / Statista 2024</span><span>10 platforms · MAU billions</span></div>
+      </div>
+    </div>
+    <div class="platform-grid reveal" id="platformGrid"></div>
+  </div>
+</section>
+
+<!-- SECTION 3: E-COMMERCE -->
+<section class="section" id="ecommerce">
+  <div class="inner">
+    <div class="sec-head reveal">
+      <div class="sec-num">03</div>
+      <div>
+        <h2 class="sec-title">E-Commerce <span class="acc">Revolution</span></h2>
+        <p class="sec-desc">Online retail transformed from a novelty to a $6.9 trillion industry. The COVID-19 pandemic acted as a decade-long accelerant compressed into a single year — permanently shifting consumer behaviour.</p>
+      </div>
+    </div>
+    <div class="chart-layout rev reveal">
+      <div class="narr">
+        <div class="kpi-grid" id="kpiGrid"></div>
+        <div class="insight-box">
+          <div class="insight-lbl">► KEY INSIGHT</div>
+          <p class="insight-txt">E-commerce grew <strong>415%</strong> from 2014–2024. COVID-19 in 2020 caused an unprecedented <strong>27.8% spike</strong> — compressing 5 years of growth into one year.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="badge">■ LINE CHART</span>
+          <div class="btns">
+            <button class="cbtn active" data-chart="ecommerce" data-view="line">SALES $T</button>
+            <button class="cbtn" data-chart="ecommerce" data-view="growth">GROWTH %</button>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="ecommerceChart"></canvas></div>
+        <div class="card-foot"><span>Source: eMarketer / Statista 2024</span><span>11 data points · 2014–2024</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: LANGUAGES -->
+<section class="section alt" id="languages">
+  <div class="inner">
+    <div class="sec-head reveal">
+      <div class="sec-num">04</div>
+      <div>
+        <h2 class="sec-title">Code of the <span class="acc">Future</span></h2>
+        <p class="sec-desc">Programming languages are the DNA of the digital world. Python's rise mirrors the AI explosion while Rust and Go signal a new era of systems programming built for cloud-native speed and safety.</p>
+      </div>
+    </div>
+    <div class="chart-layout reveal">
+      <div class="card">
+        <div class="card-head">
+          <span class="badge">■ BAR CHART</span>
+          <div class="btns">
+            <button class="cbtn active" data-chart="lang" data-view="score">TIOBE SCORE</button>
+            <button class="cbtn" data-chart="lang" data-view="age">AGE</button>
+          </div>
+        </div>
+        <div class="chart-wrap tall"><canvas id="langChart"></canvas></div>
+        <div class="card-foot"><span>Source: TIOBE Index / Stack Overflow 2024</span><span>12 languages</span></div>
+      </div>
+      <div class="narr">
+        <div class="lang-list" id="langList"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: INSIGHTS -->
+<section class="insights-sec" id="insights">
+  <div class="inner">
+    <div class="sec-head reveal">
+      <div class="sec-num">05</div>
+      <div>
+        <h2 class="sec-title">Key <span class="acc">Insights</span></h2>
+        <p class="sec-desc">The patterns across all four datasets tell a single coherent story: digital transformation is exponential, unstoppable, and reshaping every sector of human activity.</p>
+      </div>
+    </div>
+    <div class="ig-grid">
+      <div class="ic" data-idx="1"><div class="ic-icon">⚙</div><h3>Exponential Access</h3><p>Internet users grew <strong>133×</strong> in 28 years. Connectivity itself scaled exponentially, democratising information and opportunity globally.</p><span class="ic-tag">INTERNET</span></div>
+      <div class="ic" data-idx="2"><div class="ic-icon">☰</div><h3>Platform Monopolies</h3><p>Just <strong>3 companies</strong> (Meta, Google, ByteDance) control platforms used by over <strong>10 billion</strong> monthly sessions. Digital attention is extraordinarily concentrated.</p><span class="ic-tag">SOCIAL MEDIA</span></div>
+      <div class="ic feat" data-idx="3"><div class="ic-icon">↑</div><h3>The COVID Accelerant</h3><p>The pandemic compressed <strong>5 years</strong> of expected e-commerce growth into 12 months. 2020's 27.8% spike was twice the normal annual growth rate — permanently elevating the baseline and changing consumer behaviour forever.</p><span class="ic-tag">E-COMMERCE</span></div>
+      <div class="ic" data-idx="4"><div class="ic-icon">◆</div><h3>Python's AI Crown</h3><p>Python's ascent to <strong>#1 language</strong> is inseparable from the AI/ML boom. Its dominance reflects where the industry is investing and where the jobs are being created.</p><span class="ic-tag">PROGRAMMING</span></div>
+      <div class="ic" data-idx="5"><div class="ic-icon">▲</div><h3>The Mobile Pivot</h3><p>The 2007 iPhone launch correlates with the steepest internet growth curve. <strong>6.6 billion</strong> smartphone users mean mobile isn't a subset of the internet — it <em>is</em> the internet.</p><span class="ic-tag">INTERNET</span></div>
+      <div class="ic" data-idx="6"><div class="ic-icon">★</div><h3>Safety-First Languages Rising</h3><p>Rust and Go — both post-2009 — are climbing fast. The industry's focus on <strong>memory safety</strong>, concurrency, and cloud performance is reshaping language choice away from legacy giants.</p><span class="ic-tag">PROGRAMMING</span></div>
+    </div>
+    <div class="closing reveal">
+      <blockquote>"The digital revolution isn't a chapter in history — it's the entire book still being written."</blockquote>
+      <small>Data visualised using public datasets. All figures represent approximate values from cited sources.</small>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-in">
+    <div class="foot-brand"><span class="acc">▲</span> DIGIT<span class="acc">AL</span>PULSE</div>
+    <p class="foot-copy">Technology &amp; Digital Growth Trends · Built with Chart.js · Data: ITU, Statista, TIOBE, eMarketer</p>
+    <a href="#hero" style="font-family:'Share Tech Mono',monospace;font-size:.7rem">↑ TOP</a>
+  </div>
+</footer>
+
+
+
+<script>
+
+const DATA = {
+  internet: [
+    [1995,0.04],[1997,0.12],[1999,0.28],[2001,0.50],[2003,0.78],
+    [2005,1.02],[2007,1.37],[2009,1.80],[2011,2.27],[2013,2.80],
+    [2015,3.37],[2017,3.95],[2019,4.39],[2021,4.90],[2023,5.35]
+  ],
+  social: [
+    {n:"Facebook",  u:3.05,c:"#1877F2",cat:"Social"},
+    {n:"YouTube",   u:2.70,c:"#FF4444",cat:"Video"},
+    {n:"WhatsApp",  u:2.40,c:"#25D366",cat:"Messaging"},
+    {n:"Instagram", u:2.00,c:"#E1306C",cat:"Photo/Video"},
+    {n:"TikTok",    u:1.56,c:"#00f5c4",cat:"Short Video"},
+
+    {n:"Telegram",  u:0.80,c:"#2CA5E0",cat:"Messaging"},
+    {n:"Snapchat",  u:0.75,c:"#FFD700",cat:"Photo/Video"},
+    {n:"X/Twitter", u:0.61,c:"#aaaaaa",cat:"Microblog"},
+    {n:"LinkedIn",  u:0.49,c:"#0077B5",cat:"Professional"}
+  ],
+  ecom: [
+    {y:2014,s:1.34,g:null},{y:2015,s:1.55,g:15.7},{y:2016,s:1.86,g:20.0},
+    {y:2017,s:2.30,g:23.7},{y:2018,s:2.86,g:24.3},{y:2019,s:3.35,g:17.1},
+    {y:2020,s:4.28,g:27.8},{y:2021,s:5.21,g:21.7},{y:2022,s:5.82,g:11.7},
+    {y:2023,s:6.31,g:8.4}, {y:2024,s:6.91,g:9.5}
+  ],
+  langs: [
+    {n:"Python",    sc:15.39,tr:"up",    use:"AI/ML, Data Science",born:1991,c:"#3776AB"},
+    {n:"C",         sc:11.42,tr:"stable",use:"Systems, Embedded",  born:1972,c:"#A8B9CC"},
+    {n:"C++",       sc:10.08,tr:"stable",use:"Systems, Games",     born:1985,c:"#00599C"},
+    {n:"Java",      sc:8.97, tr:"down",  use:"Enterprise, Android",born:1995,c:"#ED8B00"},
+    {n:"JavaScript",sc:8.11, tr:"up",    use:"Web Dev",            born:1995,c:"#F7DF1E"},
+    {n:"C#",        sc:6.72, tr:"stable",use:".NET, Games",        born:2000,c:"#239120"},
+    {n:"Go",        sc:3.18, tr:"up",    use:"Cloud, Backend",     born:2009,c:"#00ADD8"},
+    {n:"Rust",      sc:2.85, tr:"up",    use:"Systems, WASM",      born:2010,c:"#DEA584"},
+    {n:"TypeScript",sc:2.74, tr:"up",    use:"Web Dev",            born:2012,c:"#3178C6"},
+    {n:"Kotlin",    sc:2.21, tr:"up",    use:"Android, Backend",   born:2011,c:"#7F52FF"},
+    {n:"Swift",     sc:1.98, tr:"stable",use:"iOS, macOS",         born:2014,c:"#F05138"},
+    {n:"PHP",       sc:1.89, tr:"down",  use:"Web Backend",        born:1994,c:"#777BB4"}
+  ]
+};
+
+const milestones = [
+  {y:1995,e:"World Wide Web goes public"},
+  {y:2004,e:"Facebook launched — social era begins"},
+  {y:2007,e:"iPhone debuts — mobile internet era"},
+  {y:2016,e:"Mobile internet surpasses desktop globally"}
+];
+
+/*  STATE  */
+const charts = {};
+const views  = {internet:'line', social:'vertical', ecommerce:'line', lang:'score'};
+let theme    = 'dark';
+
+/*  THEME HELPERS  */
+function cv(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function colors(){
+  return {
+    acc:cv('--acc'), acc2:cv('--acc2'), acc3:cv('--acc3'),
+    txt2:cv('--txt2'), txtm:cv('--txtm'),
+    grid:cv('--grid'), gridb:cv('--gridb'), bgcard:cv('--bgcard')
+  };
+}
+
+function setTheme(t){
+  theme = t;
+  document.documentElement.setAttribute('data-theme',t);
+  try{ localStorage.setItem('dp-t',t); }catch(e){}
+  document.getElementById('tIcon').textContent  = t==='dark'?'☾':'☀';
+  document.getElementById('tLabel').textContent = t==='dark'?'LIGHT':'DARK';
+  redrawAll();
+}
+
+/*  CHART UTILS  */
+function kill(id){ if(charts[id]){ charts[id].destroy(); delete charts[id]; } }
+
+function axis(c, grid){
+  return {
+    grid:{color:grid?c.grid:'transparent',borderColor:c.gridb},
+    ticks:{color:c.txtm,font:{family:"'Share Tech Mono',monospace",size:11}},
+    border:{color:c.gridb}
+  };
+}
+
+function baseOpts(c, suffix, labelFn){
+  return {
+    responsive:true, maintainAspectRatio:false,
+    animation:{duration:800,easing:'easeOutQuart'},
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      legend:{display:false},
+      tooltip:{
+        backgroundColor:c.bgcard,titleColor:c.acc,bodyColor:c.txt2,
+        borderColor:c.acc,borderWidth:1,padding:10,
+        callbacks:{ label: labelFn ? item=>'  '+labelFn(item) : undefined }
+      }
+    },
+    scales:{
+      x:axis(c,false),
+      y:{...axis(c,true), ticks:{...axis(c,true).ticks, callback:v=>v+suffix}}
+    }
+  };
+}
+
+/*  CHART 1: INTERNET  */
+function drawInternet(view){
+  const canvas = document.getElementById('internetChart');
+  if(!canvas) return;
+  const c = colors();
+  const years = DATA.internet.map(r=>r[0]);
+  const users = DATA.internet.map(r=>r[1]);
+  const ctx = canvas.getContext('2d');
+  const g = ctx.createLinearGradient(0,0,0,320);
+  g.addColorStop(0, c.acc+'55'); g.addColorStop(1, c.acc+'00');
+  kill('internetChart');
+  charts['internetChart'] = new Chart(canvas,{
+    type:'line',
+    data:{ labels:years, datasets:[{
+      data:users, borderColor:c.acc,
+      backgroundColor:view==='area'?g:'transparent',
+      borderWidth:2.5, pointBackgroundColor:c.acc,
+      pointRadius:4, pointHoverRadius:7,
+      tension:0.4, fill:view==='area'
+    }]},
+    options:baseOpts(c,'B',i=>`${i.raw}B users worldwide`)
+  });
+}
+
+/*  CHART 2: SOCIAL  */
+function drawSocial(view){
+  const canvas = document.getElementById('socialChart');
+  if(!canvas) return;
+  const c = colors();
+  kill('socialChart');
+  charts['socialChart'] = new Chart(canvas,{
+    type:'bar',
+    data:{
+      labels:DATA.social.map(p=>p.n),
+      datasets:[{
+        data:DATA.social.map(p=>p.u),
+        backgroundColor:DATA.social.map(p=>p.c+'bb'),
+        hoverBackgroundColor:DATA.social.map(p=>p.c),
+        borderColor:DATA.social.map(p=>p.c),
+        borderWidth:1, borderRadius:4
+      }]
+    },
+    options:{
+      indexAxis:view==='horizontal'?'y':'x',
+      responsive:true, maintainAspectRatio:false,
+      animation:{duration:800},
+      plugins:{legend:{display:false},tooltip:{
+        backgroundColor:c.bgcard,titleColor:c.acc,bodyColor:c.txt2,
+        borderColor:c.acc,borderWidth:1,
+        callbacks:{label:i=>`  ${i.raw}B monthly active users`}
+      }},
+      scales:{
+        x:axis(c,view==='horizontal'),
+        y:axis(c,view!=='horizontal')
+      }
+    }
+  });
+}
+
+/*  CHART 3: E-COMMERCE  */
+function drawEcom(view){
+  const canvas = document.getElementById('ecommerceChart');
+  if(!canvas) return;
+  const c = colors();
+  const ctx = canvas.getContext('2d');
+  const g = ctx.createLinearGradient(0,0,0,320);
+  g.addColorStop(0,c.acc2+'66'); g.addColorStop(1,c.acc2+'00');
+  const isG = view==='growth';
+  const color = isG ? c.acc3 : c.acc2;
+  const vals  = isG ? DATA.ecom.map(r=>r.g||0) : DATA.ecom.map(r=>r.s);
+  kill('ecommerceChart');
+  charts['ecommerceChart'] = new Chart(canvas,{
+    type:isG?'bar':'line',
+    data:{
+      labels:DATA.ecom.map(r=>r.y),
+      datasets:[{
+        data:vals, borderColor:color,
+        backgroundColor:isG?color+'99':g,
+        borderWidth:2.5, pointBackgroundColor:color,
+        pointRadius:4, pointHoverRadius:7,
+        tension:0.4, fill:!isG, borderRadius:isG?4:0
+      }]
+    },
+    options:baseOpts(c,isG?'%':'T$',i=>isG?`${i.raw}% YoY growth`:`$${i.raw}T online retail`)
+  });
+}
+
+/*  CHART 4: LANGUAGES  */
+function drawLangs(view){
+  const canvas = document.getElementById('langChart');
+  if(!canvas) return;
+  const c = colors();
+  const isAge = view==='age';
+  kill('langChart');
+  charts['langChart'] = new Chart(canvas,{
+    type:'bar',
+    data:{
+      labels:DATA.langs.map(l=>l.n),
+      datasets:[{
+        data:isAge?DATA.langs.map(l=>2024-l.born):DATA.langs.map(l=>l.sc),
+        backgroundColor:DATA.langs.map(l=>l.c+'bb'),
+        hoverBackgroundColor:DATA.langs.map(l=>l.c),
+        borderColor:DATA.langs.map(l=>l.c),
+        borderWidth:1, borderRadius:4
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true, maintainAspectRatio:false,
+      animation:{duration:800},
+      plugins:{legend:{display:false},tooltip:{
+        backgroundColor:c.bgcard,titleColor:c.acc,bodyColor:c.txt2,
+        borderColor:c.acc,borderWidth:1,
+        callbacks:{label:i=>isAge
+          ?`  ${i.raw} years old (born ${DATA.langs[i.dataIndex].born})`
+          :`  ${i.raw}% — ${DATA.langs[i.dataIndex].use}`
+        }
+      }},
+      scales:{x:axis(c,true),y:axis(c,false)}
+    }
+  });
+}
+
+function redrawAll(){
+  drawInternet(views.internet);
+  drawSocial(views.social);
+  drawEcom(views.ecommerce);
+  drawLangs(views.lang);
+}
+
+/*  BUILD DOM PANELS  */
+function buildPanels(){
+  /* milestones */
+  const mEl = document.getElementById('milestones');
+  if(mEl) mEl.innerHTML = milestones.map(m=>`
+    <div class="milestone">
+      <span class="m-year">${m.y}</span>
+      <span class="m-evt">${m.e}</span>
+    </div>`).join('');
+
+  /* platform cards */
+  const pg = document.getElementById('platformGrid');
+  if(pg){
+    const maxU = Math.max(...DATA.social.map(p=>p.u));
+    pg.innerHTML = DATA.social.map(p=>`
+      <div class="pcard">
+        <div class="p-name" style="color:${p.c}">${p.n}</div>
+        <div class="p-users">${p.u}B</div>
+        <div class="p-cat">${p.cat}</div>
+        <div class="p-bar"><div class="p-bar-fill" style="background:${p.c};width:0" data-w="${(p.u/maxU*100).toFixed(1)}%"></div></div>
+      </div>`).join('');
+    /* animate bars on scroll */
+    new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) e.target.querySelectorAll('.p-bar-fill').forEach(b=>{ setTimeout(()=>b.style.width=b.dataset.w,100); });
+      });
+    },{threshold:0.1}).observe(pg);
+  }
+
+  /* e-comm KPIs */
+  const kg = document.getElementById('kpiGrid');
+  if(kg){
+    const last = DATA.ecom[DATA.ecom.length-1];
+    const first= DATA.ecom[0];
+    const growth = Math.round((last.s-first.s)/first.s*100);
+    const peak   = DATA.ecom.reduce((a,b)=>(b.g||0)>(a.g||0)?b:a);
+    kg.innerHTML = `
+      <div class="kpi"><span class="kpi-val">$${last.s}T</span><span class="kpi-lbl">2024 Sales</span></div>
+      <div class="kpi"><span class="kpi-val">${growth}%</span><span class="kpi-lbl">Total Growth</span></div>
+      <div class="kpi"><span class="kpi-val">${peak.g}%</span><span class="kpi-lbl">Peak YoY</span></div>
+      <div class="kpi"><span class="kpi-val">${peak.y}</span><span class="kpi-lbl">Peak Year</span></div>`;
+  }
+
+  /* language list */
+  const ll = document.getElementById('langList');
+  if(ll) ll.innerHTML = DATA.langs.map(l=>`
+    <div class="lcard">
+      <div class="ldot" style="background:${l.c}"></div>
+      <div class="linfo"><div class="lname">${l.n}</div><div class="luse">${l.use}</div></div>
+      <span class="ltrend ${l.tr}">${l.tr==='up'?'▲':l.tr==='down'?'▼':'─'} ${l.tr.toUpperCase()}</span>
+    </div>`).join('');
+}
+
+/*  SCROLL REVEAL  */
+function initReveal(){
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); } });
+  },{threshold:0.06,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  const cObs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('on'), parseInt(e.target.dataset.idx||0)*100);
+        cObs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.06});
+  document.querySelectorAll('.ic').forEach(el=>cObs.observe(el));
+}
+
+/*  HERO PARTICLES  */
+function spawnParticles(){
+  const c = document.getElementById('particles');
+  if(!c) return;
+  for(let i=0;i<35;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText=`left:${Math.random()*100}%;top:${60+Math.random()*40}%;`+
+      `--dur:${6+Math.random()*10}s;--delay:${-Math.random()*10}s;`+
+      `width:${Math.random()>.7?4:2}px;height:${Math.random()>.7?4:2}px`;
+    c.appendChild(p);
+  }
+}
+
+/*  COUNTER ANIMATION  */
+function runCounters(){
+  document.querySelectorAll('.stat-val[data-target]').forEach(el=>{
+    const target=parseFloat(el.dataset.target), suffix=el.dataset.suffix||'';
+    const isF=target<100, dur=1800, t0=performance.now();
+    (function tick(now){
+      const p=Math.min((now-t0)/dur,1), e=1-Math.pow(1-p,3);
+      el.textContent=(isF?(e*target).toFixed(2):Math.floor(e*target).toLocaleString())+suffix;
+      if(p<1) requestAnimationFrame(tick);
+    })(t0);
+  });
+}
+
+/*  NAVBAR  */
+function initNav(){
+  const nav=document.getElementById('navbar');
+  const burger=document.getElementById('burger');
+  const links=document.getElementById('navLinks');
+  window.addEventListener('scroll',()=>{
+    nav.classList.toggle('scrolled',window.scrollY>20);
+    const secs=document.querySelectorAll('.section[id], .insights-sec[id]');
+    let cur='';
+    secs.forEach(s=>{ if(window.scrollY>=s.offsetTop-130) cur=s.id; });
+    document.querySelectorAll('.nav-link').forEach(a=>a.classList.toggle('active',a.dataset.sec===cur));
+  },{passive:true});
+  burger.addEventListener('click',()=>links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
+}
+
+/*  CHART TOGGLE BUTTONS */
+function initButtons(){
+  document.querySelectorAll('.cbtn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const chart=btn.dataset.chart, view=btn.dataset.view;
+      btn.closest('.btns').querySelectorAll('.cbtn').forEach(b=>b.classList.toggle('active',b===btn));
+      views[chart]=view;
+      if(chart==='internet') drawInternet(view);
+      if(chart==='social')   drawSocial(view);
+      if(chart==='ecommerce')drawEcom(view);
+      if(chart==='lang')     drawLangs(view);
+    });
+  });
+}
+
+/*  TYPEWRITER EFFECT */
+function initTypewriter(){
+  const el     = document.getElementById('twWord');
+  const cursor = document.getElementById('twCursor');
+  if(!el) return;
+  const word    = 'DIGITAL';
+  const typeMs  = 120;   
+  const deleteMs= 80;    
+  const pauseMs = 2200;  
+  const pauseEmptyMs = 600; 
+
+  let pos = 0, deleting = false;
+
+  function tick(){
+    if(!deleting){
+      el.textContent = word.slice(0, pos + 1);
+      pos++;
+      if(pos === word.length){
+        deleting = true;
+        setTimeout(tick, pauseMs);
+        return;
+      }
+      setTimeout(tick, typeMs);
+    } else {
+      el.textContent = word.slice(0, pos - 1);
+      pos--;
+      if(pos === 0){
+        deleting = false;
+        setTimeout(tick, pauseEmptyMs);
+        return;
+      }
+      setTimeout(tick, deleteMs);
+    }
+  }
+
+  setTimeout(tick, 500);
+}
+
+
+function boot(){
+  Chart.defaults.font.family = "'Exo 2',sans-serif";
+  Chart.defaults.color = '#8ba7c7';
+
+
+  let saved='dark';
+  try{ saved=localStorage.getItem('dp-t')||'dark'; }catch(e){}
+  theme=saved;
+  document.documentElement.setAttribute('data-theme',saved);
+  document.getElementById('tIcon').textContent  = saved==='dark'?'☾':'☀';
+  document.getElementById('tLabel').textContent = saved==='dark'?'LIGHT':'DARK';
+
+  document.getElementById('themeBtn').addEventListener('click',()=>setTheme(theme==='dark'?'light':'dark'));
+
+  initTypewriter();
+  initNav();
+  spawnParticles();
+  new IntersectionObserver((entries,obs)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ runCounters(); obs.unobserve(e.target); } });
+  },{threshold:0.2}).observe(document.getElementById('hero'));
+
+  buildPanels();
+  redrawAll();
+  initButtons();
+  requestAnimationFrame(()=>setTimeout(initReveal,100));
+}
+
+/* start */
+document.readyState==='loading'
+  ? document.addEventListener('DOMContentLoaded',boot)
+  : boot();
+</script>
+</body>
+</html>
